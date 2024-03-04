@@ -5,13 +5,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@EnableJpaAuditing
 public class PostsRepositoryTest {
 
     @Autowired
@@ -21,7 +26,6 @@ public class PostsRepositoryTest {
     public void cleanup() {
         postsRepository.deleteAll();
     }
-
     @Test
     public void 게시글저장_불러오기() {
         //given
@@ -37,5 +41,21 @@ public class PostsRepositoryTest {
         Posts posts = postsList.get(0);
         assertThat(posts.getTitle()).isEqualTo(title);
         assertThat(posts.getContent()).isEqualTo(content);
+    }
+
+    @Test
+    public void BaseTimeEntity_등록() {
+        //given
+        LocalDateTime now =  LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        postsRepository.save(Posts.builder().title("title").content("content").author("author").build());
+        //when
+        List<Posts> postsList = postsRepository.findAll();
+        //then
+        Posts posts = postsList.get(0);
+
+        System.out.println(">>>>>>>>>>>> createDate=" + posts.getCreatedDate()+ ", modifiedDate=" + posts.getModifiedDate());
+
+        assertThat(posts.getCreatedDate()).isAfter(now);
+        assertThat(posts.getModifiedDate()).isAfter(now);
     }
 }
