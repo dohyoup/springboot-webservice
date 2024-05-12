@@ -24,5 +24,6 @@ public class PostsSaveRequestDto {
                     .content(content)
                     .author(author)
                     .build();
+        //builder 패턴을 사용하면 어느 필드에 어떤 값을 채워야할지 명확하게 인지할 수 있다.
     }
 }

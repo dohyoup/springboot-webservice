@@ -2,7 +2,6 @@ package com.dohyoup.book.springboot.web;
 
 import com.dohyoup.book.springboot.domain.posts.Posts;
 import com.dohyoup.book.springboot.domain.posts.PostsRepository;
-import com.dohyoup.book.springboot.web.dto.PostsResponseDto;
 import com.dohyoup.book.springboot.web.dto.PostsSaveRequestDto;
 import com.dohyoup.book.springboot.web.dto.PostsUpdateRequestDto;
 import org.junit.After;
